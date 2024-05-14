@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .gameContainer {
+    @apply p-8 flex gap-6;
+  }
+
+  .imgContainer {
+    @apply p-4 bg-white flex flex-col cursor-pointer;
+  }
+
+  .imgBox {
+    @apply w-52 h-52 object-contain;
+  }
+}
