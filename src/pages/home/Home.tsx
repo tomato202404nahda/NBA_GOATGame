@@ -1,25 +1,28 @@
-import MJ from "../../assets/MJ.jpeg";
-import LBJ from "../../assets/lbj.jpg";
-import KAJ from "../../assets/kaj.jpg";
-import Hakeem from "../../assets/hakeem.webp";
-import Shaq from "../../assets/shaq.webp";
-import Larry from "../../assets/larrybird.webp";
-import Timmy from "../../assets/timmy.jpg";
-import Wilt from "../../assets/wilt.webp";
-import Magic from "../../assets/magic.jpg";
-import Dirk from "../../assets/dirknowitzki.jpg";
-import Kobe from "../../assets/kobe.jpg";
-import Jokic from "../../assets/joker.jpg";
-import Giannis from "../../assets/giannis.avif";
-import KD from "../../assets/KD.webp";
-import AI from "../../assets/AI.jpg";
-import Admiral from "../../assets/admiral.webp";
-import { useState, useEffect } from "react";
+import MJ from "../../assets/MJ.gif";
+import LBJ from "../../assets/lbj.gif";
+import KAJ from "../../assets/kaj.gif";
+import Hakeem from "../../assets/hakeem.gif";
+import Shaq from "../../assets/shaq.gif";
+import Larry from "../../assets/larrybird.gif";
+import Timmy from "../../assets/timmy.gif";
+import Wilt from "../../assets/wilt.gif";
+import Magic from "../../assets/magic.gif";
+import Dirk from "../../assets/dirknowitzki.gif";
+import Kobe from "../../assets/kobe.gif";
+import Jokic from "../../assets/joker.gif";
+import Giannis from "../../assets/giannis.gif";
+import KD from "../../assets/KD.gif";
+import AI from "../../assets/AI.gif";
+import Admiral from "../../assets/admiral.gif";
+import { useState, useEffect, useContext } from "react";
+import { RankingContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
-type Candidate = {
+export type Candidate = {
   key: number;
   name: string;
   src: string;
+  score?: number;
 };
 
 const candidates: Candidate[] = [
@@ -109,11 +112,21 @@ export default function Home() {
   const [winCandis, setWinCandis] = useState<Candidate[]>([]);
   const [round, setRound] = useState(1);
   const [game, setGame] = useState(candis.length);
+
+  const [value, setValue] = useContext(RankingContext);
+  const navigation = useNavigate();
+
   useEffect(() => {
     setCandis(
       candidates
         .map((c) => {
-          return { key: c.key, name: c.name, src: c.src, order: Math.random() };
+          return {
+            key: c.key,
+            name: c.name,
+            src: c.src,
+            score: c.score,
+            order: Math.random(),
+          };
         })
         .sort((l, r) => {
           return l.order - r.order;
@@ -131,20 +144,81 @@ export default function Home() {
     });
     setRound((prev) => prev + 1);
     setWinCandis((prev) => [...prev, c]);
-    console.log(winCandis);
+
     /* setCandis((prev) => {
       const temp1 = prev.splice(0, 2);
       return prev.filter((c) => !temp1.includes(c));
     });
     setRound((prev) => prev + 1);
     setWinCandis((prev) => [...prev, c]);
-    console.log(candis);
-    console.log(winCandis); */
+     */
+  };
+  const rank = () => {
+    // const temp = candidates.map((e, i) => {
+    //   if (e.score != null) {
+    //     if (i < candis.length) {
+    //       if (e.key === candis[i].key) {
+    //         return {
+    //           key: e.key,
+    //           name: e.name,
+    //           src: e.src,
+    //           score: e.score++,
+    //         };
+    //       } else {
+    //         return {
+    //           key: e.key,
+    //           name: e.name,
+    //           src: e.src,
+    //           score: e.score,
+    //         };
+    //       }
+    //     }
+    //   } else {
+    //     if (e.key === candis[0].key) {
+    //       return {
+    //         key: e.key,
+    //         name: e.name,
+    //         src: e.src,
+    //         score: 1,
+    //       };
+    //     }
+    //     return {
+    //       key: e.key,
+    //       name: e.name,
+    //       src: e.src,
+    //       score: 0,
+    //     };
+    //   }
+    // });
+
+    if (value != undefined && value.length > 0) {
+      setValue((prev) => {
+        const temp = prev.map((e) => {
+          if (candis[0].key === e.key) {
+            const temp = e.score + 1;
+            return { key: e.key, name: e.name, src: e.src, score: temp };
+          } else
+            return { key: e.key, name: e.name, src: e.src, score: e.score };
+        });
+        return temp;
+      });
+    } else {
+      const temp = candidates.map((e) => {
+        if (candis[0].key === e.key) {
+          return { key: e.key, name: e.name, src: e.src, score: 1 };
+        } else {
+          return { key: e.key, name: e.name, src: e.src, score: 0 };
+        }
+      });
+      setValue(temp);
+    }
+
+    navigation("/ranking");
   };
 
   useEffect(() => {
     if (game === 1) {
-      return;
+      rank();
     }
     if (candis.length === 0) {
       setRound(1);

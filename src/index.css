@@ -4,14 +4,28 @@
 
 @layer components {
   .gameContainer {
-    @apply p-8 flex gap-6;
+    @apply p-8 flex flex-row justify-evenly align-middle gap-6;
   }
 
   .imgContainer {
-    @apply p-4 bg-white flex flex-col cursor-pointer;
+    @apply p-4 bg-white flex flex-col align-middle cursor-pointer;
   }
 
   .imgBox {
-    @apply w-52 h-52 object-contain;
+    @apply w-72 h-auto object-contain;
+  }
+
+  .headerContainer {
+    @apply flex flex-col justify-center w-[100vw];
+  }
+  .headerContents {
+    @apply text-center text-3xl font-bold;
+  }
+
+  .navBar {
+    @apply flex flex-row justify-center px-52 py-5 gap-52;
+  }
+  .navBarContents {
+    @apply text-center text-2xl font-bold;
   }
 }
