@@ -3,7 +3,7 @@ import { RankingContext } from "../../App";
 import { Candidate } from "../home/Home";
 
 export default function Ranking() {
-  const [value, setValue] = useContext(RankingContext);
+  const [value] = useContext(RankingContext);
   const [ranked, setRanked] = useState<Candidate[]>([]);
   console.log(value);
   useEffect(() => {

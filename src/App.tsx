@@ -1,10 +1,4 @@
-import {
-  Navigate,
-  Route,
-  RouterProvider,
-  Routes,
-  createBrowserRouter,
-} from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import "./App.css";
 import { createContext, useState } from "react";
